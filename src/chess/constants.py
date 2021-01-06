@@ -1,0 +1,15 @@
+import pygame
+
+FPS = 60
+
+WIDTH, HEIGHT = 800, 800
+ROWS, COLS = 8, 8
+SQUARE_SIZE = WIDTH // COLS
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+LIGHTGREY = (220, 220, 220)
+DARKGREY = (169, 169, 169)
+BLUE = (0, 0, 255)
+
+PIECE_SPRITE_DIRECTORY = "assets/chess/pieces/sprites"
