@@ -1,5 +1,7 @@
 from .constants import *
 import pygame
+from .moves import Moves
+
 class Piece:
     def __init__(self, row, col, color, type):
         self.row = row
@@ -24,21 +26,11 @@ class Piece:
     def get_possible_moves(self):
         moves = []
         if self.type == "pawn":
-            cornerLeft = self.board.get_piece(self.row - 1, self.col - 1)
-            cornerRight = self.board.get_piece(self.row - 1, self.col + 1)
-            front1 = self.board.get_piece(self.row - 1, self.col)
-            if front1 == 0:
-                if self.moveCount == 0:
-                    moves.append([self.row - 1, self.col])
-                    front2 = self.board.get_piece(self.row - 2, self.col)
-                    if front2 == 0:
-                        moves.append([self.row - 2, self.col])
-                elif self.moveCount > 0:
-                    moves.append([self.row - 1, self.col])
-            if cornerLeft != 0:
-                moves.append([cornerLeft.row, cornerLeft.col])
-            if cornerRight != 0:
-                moves.append([cornerRight.row, cornerRight.col])
+            moves = Moves.pawn(self.board, self.row, self.col, self.moveCount)
+        elif self.type == "rook":
+            moves = Moves.rook(self.board, self.row, self.col, self.moveCount)
+        elif self.type == "knight":
+            moves = Moves.knight(self.board, self.row, self.col, self.moveCount)
         self.possibleMoves = moves
         return self.possibleMoves
     

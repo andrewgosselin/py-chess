@@ -1,6 +1,7 @@
 import pygame
 from .constants import *
 from .piece import Piece
+from .layouts import Layouts
 
 class Board:
     def __init__(self, player_color):
@@ -19,15 +20,7 @@ class Board:
                 pygame.draw.rect(win, LIGHTGREY, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
     def generate_board(self):
-        for row in range(ROWS):
-            self.board.append([])
-            for col in range(COLS):
-                    if row < 2:
-                        self.board[row].append(Piece(row, col, self.top_color, "pawn"))
-                    elif row > 5:
-                        self.board[row].append(Piece(row, col, self.bottom_color, "pawn"))
-                    else:
-                        self.board[row].append(0)
+        self.board = Layouts.normal(self.top_color, self.bottom_color)
 
     def move(self, piece, row, col):
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
@@ -45,7 +38,10 @@ class Board:
 
 
     def get_piece(self, row, col):
-        return self.board[row][col]
+        try:
+            return self.board[row][col]
+        except:
+            return 0
 
     def promote(self, piece):
         pass
@@ -57,6 +53,7 @@ class Board:
                 piece = self.board[row][col]
                 if piece != 0:
                     piece.draw(win, self)
+               
 
     def draw_possible_moves(self, win, moves):
         for move in moves:
