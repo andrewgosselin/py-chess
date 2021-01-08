@@ -14,10 +14,11 @@ class Board:
         self.black_captures = []
 
     def draw_squares(self, win):
-        win.fill(DARKGREY)
+        win.fill(BLACK)
+        pygame.draw.rect(win, DARKGREY, (0, BOARD_PADDING_TOP, COLS * SQUARE_SIZE, ROWS * SQUARE_SIZE))
         for row in range(ROWS):
             for col in range(row % 2, ROWS, 2):
-                pygame.draw.rect(win, LIGHTGREY, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+                pygame.draw.rect(win, LIGHTGREY, (row * SQUARE_SIZE, (col * SQUARE_SIZE) + BOARD_PADDING_TOP, SQUARE_SIZE, SQUARE_SIZE))
 
     def generate_board(self):
         self.board = Layouts.normal(self.top_color, self.bottom_color)
@@ -41,7 +42,7 @@ class Board:
         try:
             return self.board[row][col]
         except:
-            return 0
+            return "invalid"
 
     def promote(self, piece):
         pass
@@ -60,6 +61,6 @@ class Board:
             row = move[0]
             col = move[1]
             x = SQUARE_SIZE * col + SQUARE_SIZE // 2
-            y = SQUARE_SIZE * row + SQUARE_SIZE // 2
+            y = (SQUARE_SIZE * row + SQUARE_SIZE // 2) + BOARD_PADDING_TOP
             pygame.draw.circle(win, BLUE, (x, y), SQUARE_SIZE//2 - 25)
                 

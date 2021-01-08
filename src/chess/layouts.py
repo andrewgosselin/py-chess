@@ -43,10 +43,10 @@ class Layouts:
             [
                 Piece(7, 0, bottom_color, "rook"), 
                 Piece(7, 1, bottom_color, "knight"), 
-                Piece(7, 2, bottom_color, "rook"), 
-                Piece(7, 3, bottom_color, "rook"), 
-                Piece(7, 4, bottom_color, "rook"), 
-                Piece(7, 5, bottom_color, "rook"), 
+                Piece(7, 2, bottom_color, "bishop"), 
+                Piece(7, 3, bottom_color, "queen"), 
+                Piece(7, 4, bottom_color, "king"), 
+                Piece(7, 5, bottom_color, "bishop"), 
                 Piece(7, 6, bottom_color, "knight"), 
                 Piece(7, 7, bottom_color, "rook")
             ],

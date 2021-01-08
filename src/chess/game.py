@@ -20,6 +20,15 @@ class Game:
             self.board.draw_possible_moves( self.win, self.valid_moves)
         pygame.display.update()
 
+    def input(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                row, col = self.convertMouseToPosition(pos)
+                self.select_piece(row, col)
+
     def reset(self):
         self._init()
         
@@ -55,3 +64,10 @@ class Game:
             self.turn = WHITE
         else:
             self.turn = WHITE
+
+    def convertMouseToPosition(self, pos):
+        x, y = pos
+        print("mouse: ", x, y)
+        row = (y - BOARD_PADDING_TOP) // SQUARE_SIZE
+        col = x // SQUARE_SIZE
+        return row, col

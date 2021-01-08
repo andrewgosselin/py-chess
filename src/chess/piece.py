@@ -3,6 +3,7 @@ import pygame
 from .moves import Moves
 
 class Piece:
+    direction = "up"
     def __init__(self, row, col, color, type):
         self.row = row
         self.col = col
@@ -17,7 +18,8 @@ class Piece:
 
     def calculatePosition(self):
         self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
-        self.y = (SQUARE_SIZE * self.row + SQUARE_SIZE // 2)
+        self.y = (SQUARE_SIZE * self.row + SQUARE_SIZE // 2) + BOARD_PADDING_TOP
+
 
     def draw(self, win, board):
         self.board = board
@@ -31,6 +33,10 @@ class Piece:
             moves = Moves.rook(self.board, self.row, self.col, self.moveCount)
         elif self.type == "knight":
             moves = Moves.knight(self.board, self.row, self.col, self.moveCount)
+        elif self.type == "bishop":
+            moves = Moves.bishop(self.board, self.row, self.col, self.moveCount)
+        elif self.type == "king":
+            moves = Moves.king(self.board, self.row, self.col, self.moveCount)
         self.possibleMoves = moves
         return self.possibleMoves
     
