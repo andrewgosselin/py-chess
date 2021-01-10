@@ -7,7 +7,10 @@ class Board:
     def __init__(self, player_color):
         self.board = []
         self.player_color = player_color
-        self.top_color = ((player_color == WHITE) if BLACK else WHITE)
+        if self.player_color == WHITE:
+            self.top_color = BLACK
+        else:
+            self.top_color = WHITE
         self.bottom_color = player_color
         self.generate_board()
         self.white_captures = []

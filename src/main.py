@@ -21,7 +21,6 @@ def main():
         clock.tick(FPS)
         if menu.game_started:
             menu.game.tick()
-            menu.game.input()
         else:
             menu.tick()
     pygame.quit()

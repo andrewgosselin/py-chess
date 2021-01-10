@@ -39,3 +39,14 @@ button_layout_4 = [(button_x_start, HEIGHT * 5 // 13, BUTTON_WIDTH, BUTTON_HEIGH
 TOGGLE_WIDTH = int(BUTTON_WIDTH * 0.875)
 TOGGLE_ADJ = int(BUTTON_WIDTH * 0.075)
 SCORE_ANCHOR = WIDTH - 8, -5
+
+
+def text_objects(text, font, colour):
+    textSurface = font.render(text, True, colour)
+    return textSurface, textSurface.get_rect()
+
+def listToString(s):  
+    # initialize an empty string 
+    str1 = ' '.join([str(elem) for elem in s]) 
+    # return string   
+    return str1
