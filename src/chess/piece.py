@@ -3,8 +3,7 @@ import pygame
 from .moves import Moves
 
 class Piece:
-    direction = "up"
-    def __init__(self, row, col, color, type):
+    def __init__(self, row, col, color, type, direction = "up"):
         self.row = row
         self.col = col
         self.color = color
@@ -14,7 +13,9 @@ class Piece:
         self.y = 0
         self.possibleMoves = []
         self.calculatePosition()
+        self.direction = direction
         self.board = None
+        self.sprite = pygame.image.load('../assets/chess/pieces/w_' + self.type + '.png')
 
     def calculatePosition(self):
         self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
@@ -23,6 +24,9 @@ class Piece:
 
     def draw(self, win, board):
         self.board = board
+        
+        rect = self.sprite.get_rect()
+        rect.center = (self.x, self.y)
         pygame.draw.circle(win, self.color, (self.x, self.y), SQUARE_SIZE//2 - 15)
 
     def get_possible_moves(self):

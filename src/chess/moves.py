@@ -4,6 +4,13 @@ from .constants import *
 
 class Moves:
     @staticmethod
+    def is_in_board(row, col):
+        if row >= 0 and row <= ROWS:
+            if col >= 0 and col <= COLS:
+                return True
+        return False
+        
+    @staticmethod
     def pawn(board, row, col, moveCount):
         initialTopMoves = [
             [row - 1, col],
@@ -11,6 +18,10 @@ class Moves:
         ]
         topMoves = [
             [row - 1, col]
+        ]
+        initialBottomMoves = [
+            [row + 1, col],
+            [row + 2, col]
         ]
         bottomMoves = [
             [row + 1, col],
@@ -40,29 +51,29 @@ class Moves:
                     else:
                         topBlocked = True
             for move in topCaptureMoves:
-                print(move)
                 movePiece = board.get_piece(move[0], move[1])
                 if movePiece != "invalid":
                     if movePiece != 0:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
 
         elif piece.direction == "down":
             bottomBlocked = False
-            for move in topMoves:
+            currentMoves = bottomMoves
+            if piece.moveCount == 0:
+                currentMoves = initialBottomMoves
+            for move in currentMoves:
                 movePiece = board.get_piece(move[0], move[1])
                 if movePiece != "invalid":
                     if movePiece == 0:
                         moves.append(move)
                     else:
-                        if movePiece.color == board.top_color:
-                            moves.append(move)
                         bottomBlocked = True
             for move in bottomCaptureMoves:
                 movePiece = board.get_piece(move[0], move[1])
                 if movePiece != "invalid":
                     if movePiece != 0:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
 
         return moves
@@ -117,7 +128,7 @@ class Moves:
                     if movePiece == 0:
                         moves.append(move)
                     else:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
                         topBlocked = True
             for move in leftMoves:
@@ -126,7 +137,7 @@ class Moves:
                     if movePiece == 0:
                         moves.append(move)
                     else:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
                         leftBlocked = True
             for move in rightMoves:
@@ -135,7 +146,7 @@ class Moves:
                     if movePiece == 0:
                         moves.append(move)
                     else:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
                         rightBlocked = True
             
@@ -150,7 +161,7 @@ class Moves:
                     if movePiece == 0:
                         moves.append(move)
                     else:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
                         bottomBlocked = True
             for move in leftMoves:
@@ -159,7 +170,7 @@ class Moves:
                     if movePiece == 0:
                         moves.append(move)
                     else:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
                         leftBlocked = True
             for move in rightMoves:
@@ -168,7 +179,7 @@ class Moves:
                     if movePiece == 0:
                         moves.append(move)
                     else:
-                        if movePiece.color == board.top_color:
+                        if movePiece.color != board.turn:
                             moves.append(move)
                         rightBlocked = True
         return moves
@@ -192,22 +203,24 @@ class Moves:
 
         if piece.direction == "up":
             for move in topMoves:
-                movePiece = board.get_piece(move[0], move[1])
-                if movePiece != "invalid":
-                    if movePiece == 0:
-                        moves.append(move)
-                    else:
-                        if movePiece.color == board.top_color:
+                if Moves.is_in_board(move[0], move[1]):
+                    movePiece = board.get_piece(move[0], move[1])
+                    if movePiece != "invalid":
+                        if movePiece == 0:
                             moves.append(move)
+                        else:
+                            if movePiece.color != board.turn:
+                                moves.append(move)
         elif piece.direction == "down":
             for move in bottomMoves:
-                movePiece = board.get_piece(move[0], move[1])
-                if movePiece != "invalid":
-                    if movePiece == 0:
-                        moves.append(move)
-                    else:
-                        if movePiece.color == board.top_color:
+                if Moves.is_in_board(move[0], move[1]):
+                    movePiece = board.get_piece(move[0], move[1])
+                    if movePiece != "invalid":
+                        if movePiece == 0:
                             moves.append(move)
+                        else:
+                            if movePiece.color != board.turn:
+                                moves.append(move)
         return moves
 
     @staticmethod
@@ -292,78 +305,86 @@ class Moves:
         bottomLeftBlocked = False
         bottomRightBlocked = False
         for move in topLeftMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not topLeftBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not topLeftBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    topLeftBlocked = True
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        topLeftBlocked = True
         for move in topRightMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not topRightBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not topRightBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    topRightBlocked = True
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        topRightBlocked = True
         for move in topMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not topBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not topBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    topBlocked = True
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        topBlocked = True
         for move in leftMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not leftBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not leftBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    leftBlocked = True
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        leftBlocked = True
         for move in rightMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not rightBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not rightBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    rightBlocked = True
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        rightBlocked = True
         for move in bottomLeftMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not bottomLeftBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not bottomLeftBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    bottomLeftBlocked = True
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        bottomLeftBlocked = True
 
         for move in bottomRightMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not bottomRightBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not bottomRightBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    bottomRightBlocked = True  
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        bottomRightBlocked = True  
         for move in bottomMoves:
-            movePiece = board.get_piece(move[0], move[1])
-            if movePiece != "invalid" and not bottomBlocked:
-                if movePiece == 0:
-                    moves.append(move)
-                else:
-                    if movePiece.color == board.top_color:
+            if Moves.is_in_board(move[0], move[1]):
+                movePiece = board.get_piece(move[0], move[1])
+                if movePiece != "invalid" and not bottomBlocked:
+                    if movePiece == 0:
                         moves.append(move)
-                    bottomBlocked = True 
+                    else:
+                        if movePiece.color != board.turn:
+                            moves.append(move)
+                        bottomBlocked = True 
         return moves
 
     @staticmethod
@@ -391,7 +412,6 @@ class Moves:
 
 
         return moves
-
 
     @staticmethod
     def bishop(board, row, col, moveCount):
@@ -433,46 +453,50 @@ class Moves:
             topLeftBlocked = False
             topRightBlocked = False
             for move in topLeftMoves:
-                movePiece = board.get_piece(move[0], move[1])
-                if movePiece != "invalid" and not topLeftBlocked:
-                    if movePiece == 0:
-                        moves.append(move)
-                    else:
-                        if movePiece.color == board.top_color:
+                if Moves.is_in_board(move[0], move[1]):
+                    movePiece = board.get_piece(move[0], move[1])
+                    if movePiece != "invalid" and not topLeftBlocked:
+                        if movePiece == 0:
                             moves.append(move)
-                        topLeftBlocked = True
+                        else:
+                            if movePiece.color != board.turn:
+                                moves.append(move)
+                            topLeftBlocked = True
 
             for move in topRightMoves:
-                movePiece = board.get_piece(move[0], move[1])
-                if movePiece != "invalid" and not topRightBlocked:
-                    if movePiece == 0:
-                        moves.append(move)
-                    else:
-                        if movePiece.color == board.top_color:
+                if Moves.is_in_board(move[0], move[1]):
+                    movePiece = board.get_piece(move[0], move[1])
+                    if movePiece != "invalid" and not topRightBlocked:
+                        if movePiece == 0:
                             moves.append(move)
-                        topRightBlocked = True
+                        else:
+                            if movePiece.color != board.turn:
+                                moves.append(move)
+                            topRightBlocked = True
 
         elif piece.direction == "down":
             bottomLeftBlocked = False
             bottomRightBlocked = False
             for move in bottomLeftMoves:
-                movePiece = board.get_piece(move[0], move[1])
-                if movePiece != "invalid" and not bottomLeftBlocked:
-                    if movePiece == 0:
-                        moves.append(move)
-                    else:
-                        if movePiece.color == board.top_color:
+                if Moves.is_in_board(move[0], move[1]):
+                    movePiece = board.get_piece(move[0], move[1])
+                    if movePiece != "invalid" and not bottomLeftBlocked:
+                        if movePiece == 0:
                             moves.append(move)
-                        bottomLeftBlocked = True
+                        else:
+                            if movePiece.color != board.turn:
+                                moves.append(move)
+                            bottomLeftBlocked = True
 
             for move in bottomRightMoves:
-                movePiece = board.get_piece(move[0], move[1])
-                if movePiece != "invalid" and not bottomRightBlocked:
-                    if movePiece == 0:
-                        moves.append(move)
-                    else:
-                        if movePiece.color == board.top_color:
+                if Moves.is_in_board(move[0], move[1]):
+                    movePiece = board.get_piece(move[0], move[1])
+                    if movePiece != "invalid" and not bottomRightBlocked:
+                        if movePiece == 0:
                             moves.append(move)
-                        bottomRightBlocked = True
+                        else:
+                            if movePiece.color != board.turn:
+                                moves.append(move)
+                            bottomRightBlocked = True
                         
         return moves

@@ -7,24 +7,24 @@ class Layouts:
     def normal(top_color, bottom_color):
         layout = [
             [
-                Piece(0, 0, top_color, "rook"), 
-                Piece(0, 1, top_color, "rook"), 
-                Piece(0, 2, top_color, "rook"), 
-                Piece(0, 3, top_color, "rook"), 
-                Piece(0, 4, top_color, "rook"), 
-                Piece(0, 5, top_color, "rook"), 
-                Piece(0, 6, top_color, "rook"), 
-                Piece(0, 7, top_color, "rook")
+                Piece(0, 0, top_color, "rook", "down"), 
+                Piece(0, 1, top_color, "knight", "down"), 
+                Piece(0, 2, top_color, "bishop", "down"), 
+                Piece(0, 3, top_color, "queen", "down"), 
+                Piece(0, 4, top_color, "king", "down"), 
+                Piece(0, 5, top_color, "bishop", "down"), 
+                Piece(0, 6, top_color, "knight", "down"), 
+                Piece(0, 7, top_color, "rook", "down")
             ],
             [
-                Piece(1, 0, top_color, "rook"), 
-                Piece(1, 1, top_color, "rook"), 
-                Piece(1, 2, top_color, "rook"), 
-                Piece(1, 3, top_color, "rook"), 
-                Piece(1, 4, top_color, "rook"), 
-                Piece(1, 5, top_color, "rook"), 
-                Piece(1, 6, top_color, "rook"), 
-                Piece(1, 7, top_color, "rook")
+                Piece(1, 0, top_color, "pawn", "down"), 
+                Piece(1, 1, top_color, "pawn", "down"), 
+                Piece(1, 2, top_color, "pawn", "down"), 
+                Piece(1, 3, top_color, "pawn", "down"), 
+                Piece(1, 4, top_color, "pawn", "down"), 
+                Piece(1, 5, top_color, "pawn", "down"), 
+                Piece(1, 6, top_color, "pawn", "down"), 
+                Piece(1, 7, top_color, "pawn", "down")
             ],
             [ 0, 0, 0, 0, 0, 0, 0, 0 ],
             [ 0, 0, 0, 0, 0, 0, 0, 0 ],

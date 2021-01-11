@@ -12,6 +12,7 @@ class Board:
         else:
             self.top_color = WHITE
         self.bottom_color = player_color
+        self.turn = WHITE
         self.generate_board()
         self.white_captures = []
         self.black_captures = []
@@ -27,6 +28,7 @@ class Board:
         self.board = Layouts.normal(self.top_color, self.bottom_color)
 
     def move(self, piece, row, col):
+        print("Moved [" + str(piece.row) + ", " + str(piece.col) + "] to [" + str(row) + ", " + str(col) + "]")
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
         if row == ROWS or row == 0:

@@ -4,6 +4,8 @@ from .constants import *
 from base.pause_menu import PauseMenu
 from pygame import gfxdraw, K_w, K_a, K_d, K_UP, K_LEFT, K_RIGHT, K_ESCAPE, K_F4, K_p, K_RALT, K_LALT, K_SPACE, MOUSEBUTTONDOWN, QUIT, KEYUP, KEYDOWN, K_TAB, K_v, K_h, K_BACKSPACE, K_q, K_m, K_r
 
+from chess.bot import Bot
+
 class Game:
     def __init__(self, win, online = False, network = None):
         
@@ -16,15 +18,14 @@ class Game:
     def _init(self):
         self.selected_piece = None
         self.board = Board(WHITE)
-        self.turn = WHITE
         self.valid_moves = []
 
     def tick(self):
         self.board.draw(self.win)
-        if self.selected_piece and len(self.valid_moves) > 0:
+        if self.selected_piece and self.selected_piece.color == self.board.bottom_color and len(self.valid_moves) > 0:
             self.board.draw_possible_moves( self.win, self.valid_moves)
         self.input()
-        if self.turn == self.board.top_color:
+        if self.board.turn == self.board.top_color:
             if self.online:
                 # self.board = self.network.send("update_moves")
                 # self.board = self.network.send("name " + name)
@@ -59,7 +60,7 @@ class Game:
             
         else:
             piece = self.board.get_piece(row, col)
-            if piece != 0 and piece.color == self.board.player_color and piece.color == self.turn:
+            if piece != 0 and piece.color == self.board.player_color and piece.color == self.board.turn:
                 self.selected_piece = piece
                 self.valid_moves = self.selected_piece.get_possible_moves()
                 return True
@@ -72,7 +73,7 @@ class Game:
                 if(piece == 0):
                     self.board.move(self.selected_piece, row, col)
                 else:
-                    self.board.capture_piece(row, col, self.turn)
+                    self.board.capture_piece(row, col, self.board.turn)
                     self.board.move(self.selected_piece, row, col)
                 self.change_turn()
         else:
@@ -80,18 +81,16 @@ class Game:
         return True
     
     def change_turn(self):
-        if self.turn == WHITE:
-            self.turn = BLACK
+        if self.board.turn == WHITE:
+            self.board.turn = BLACK
         else:
-            self.turn = WHITE
+            self.board.turn = WHITE
 
     def convertMouseToPosition(self, pos):
         x, y = pos
-        print("mouse: ", x, y)
         row = (y - BOARD_PADDING_TOP) // SQUARE_SIZE
         col = x // SQUARE_SIZE
         return row, col
 
     def bot_move(self):
-        print("Bot move")
-        self.change_turn()
+        move = Bot.move(self.board, self)
