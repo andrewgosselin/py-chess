@@ -224,7 +224,7 @@ class Moves:
         return moves
 
     @staticmethod
-    def king(board, row, col, moveCount):
+    def queen(board, row, col, moveCount):
         topMoves = [
             [row - 1, col],
             [row - 2, col],
@@ -388,7 +388,7 @@ class Moves:
         return moves
 
     @staticmethod
-    def queen(board, row, col, moveCount):
+    def king(board, row, col, moveCount):
         moves = []
         
         topMove = [row - 1, col]

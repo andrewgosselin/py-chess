@@ -15,19 +15,23 @@ class Piece:
         self.calculatePosition()
         self.direction = direction
         self.board = None
-        self.sprite = pygame.image.load('../assets/chess/pieces/w_' + self.type + '.png')
+        if self.color == WHITE:
+            color_letter = "w"
+        else:
+            color_letter = "b"
+        self.sprite = pygame.image.load('../assets/chess/pieces/' + color_letter + '_' + self.type + '.png')
+        self.sprite = pygame.transform.scale(self.sprite, (SQUARE_SIZE - 15, SQUARE_SIZE - 15))
 
     def calculatePosition(self):
         self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
         self.y = (SQUARE_SIZE * self.row + SQUARE_SIZE // 2) + BOARD_PADDING_TOP
 
-
     def draw(self, win, board):
         self.board = board
-        
         rect = self.sprite.get_rect()
         rect.center = (self.x, self.y)
-        pygame.draw.circle(win, self.color, (self.x, self.y), SQUARE_SIZE//2 - 15)
+        win.blit(self.sprite, rect)
+        #pygame.draw.circle(win, self.color, (self.x, self.y), SQUARE_SIZE//2 - 15)
 
     def get_possible_moves(self):
         moves = []
@@ -41,7 +45,10 @@ class Piece:
             moves = Moves.bishop(self.board, self.row, self.col, self.moveCount)
         elif self.type == "king":
             moves = Moves.king(self.board, self.row, self.col, self.moveCount)
+        elif self.type == "queen":
+            moves = Moves.queen(self.board, self.row, self.col, self.moveCount)
         self.possibleMoves = moves
+        print(self.possibleMoves)
         return self.possibleMoves
     
     def is_move_possible(self, row, col):

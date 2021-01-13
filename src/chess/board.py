@@ -42,7 +42,6 @@ class Board:
             self.black_captures.append(piece)
         self.board[row][col] = 0
 
-
     def get_piece(self, row, col):
         try:
             return self.board[row][col]
@@ -60,7 +59,6 @@ class Board:
                 if piece != 0:
                     piece.draw(win, self)
                
-
     def draw_possible_moves(self, win, moves):
         for move in moves:
             row = move[0]
@@ -68,4 +66,3 @@ class Board:
             x = SQUARE_SIZE * col + SQUARE_SIZE // 2
             y = (SQUARE_SIZE * row + SQUARE_SIZE // 2) + BOARD_PADDING_TOP
             pygame.draw.circle(win, BLUE, (x, y), SQUARE_SIZE//2 - 25)
-                

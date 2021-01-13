@@ -1,10 +1,11 @@
 # Bot code here
 import random
 from .constants import *
-
+import time
 class Bot:
     @staticmethod
     def move(board, game):
+        # wait()
         moveable_pieces = []
         for row in range(ROWS):
             if row >= 0 and row <= 1:

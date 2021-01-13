@@ -40,6 +40,10 @@ TOGGLE_WIDTH = int(BUTTON_WIDTH * 0.875)
 TOGGLE_ADJ = int(BUTTON_WIDTH * 0.075)
 SCORE_ANCHOR = WIDTH - 8, -5
 
+UNCHECKABLE_PIECES = [
+    "king",
+    "queen"
+]
 
 def text_objects(text, font, colour):
     textSurface = font.render(text, True, colour)
@@ -50,3 +54,8 @@ def listToString(s):
     str1 = ' '.join([str(elem) for elem in s]) 
     # return string   
     return str1
+
+def text_to_screen(screen, text, x, y, size = 50, color = BLACK, font_type = FONT_BOLD):
+    font = pygame.font.Font(FONT_LIGHT, size)
+    text = font.render(str(text), True, BLACK)
+    screen.blit(text, (x, y))
